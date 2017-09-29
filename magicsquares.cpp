@@ -11,6 +11,8 @@ public:
 	void makeSquare();
 	void magic();
 	void print();
+	void sum();
+	void alternate();
 };
 
 // Contructor
@@ -59,12 +61,59 @@ void MagicSquare::magic() {
 
 // Print square
 void MagicSquare::print() {
-		for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			printf("%4d", matrix[i][j]);
 		}
 		std::cout << "\n";
 	}
+}
+
+// Check sums
+void MagicSquare::sum() {
+	// Sum of every row
+	std::cout << "Checking the sums of every row: ";
+	for (int i = 0; i < size; i++) {
+		int sum = 0;
+		for (int j = 0; j < size; j++) {
+			sum += matrix[i][j];
+		}
+		printf("%4d", sum);
+	}
+	std::cout << "\n";
+
+	// Sum of every column
+	std::cout << "Checking the sums of every column: ";
+	for (int i = 0; i < size; i++) {
+		int sum = 0;
+		for (int j = 0; j < size; j++) {
+			sum += matrix[j][i];
+		}
+		printf("%4d", sum);
+	}
+	std::cout << "\n";
+
+	// Sum of diagonal case one
+	std::cout << "Checking the sums of every diagonal: ";
+	int sum = 0;
+	for (int i = 0; i < size; i++) {
+		sum += matrix[i][i];
+	}
+	printf("%4d", sum);
+
+	// Sum of diagonal case two
+	sum = 0;
+	for (int i = 0; i < size; i++) {
+		int k = 2;
+		sum += matrix[i][k];
+		k--;
+	}
+	printf("%4d", sum);
+	std::cout << "\n";
+}
+
+void MagicSquare::alternate() {
+
 }
 
 // Checks input
@@ -86,9 +135,12 @@ int main() {
 	bool isValid = true;
 	isLegal(size, isValid);
 
-	MagicSquare squareOne(size);
-	squareOne.makeSquare();
-	squareOne.print();
-	squareOne.magic();
-	squareOne.print();
+	// Magic square 1
+	MagicSquare mainSquare(size);
+	mainSquare.makeSquare();
+	mainSquare.magic();
+	mainSquare.print();
+	mainSquare.sum();
+
+
 }
