@@ -9,10 +9,11 @@ private:
 public:
 	MagicSquare(int size);
 	void makeSquare();
-	void magic();
 	void print();
 	void sum();
-	void alternate();
+	void swapLR();
+	void swapTB();
+	void rotate();
 };
 
 // Contructor
@@ -33,10 +34,7 @@ void MagicSquare::makeSquare() {
 			matrix[i][j] = 0;
 		}
 	}
-}
 
-// Siamese method
-void MagicSquare::magic() {
 	// [y][x] from top
 	int y = 0;
 	int x = size / 2;
@@ -104,15 +102,27 @@ void MagicSquare::sum() {
 	// Sum of diagonal case two
 	sum = 0;
 	for (int i = 0; i < size; i++) {
-		int k = 2;
-		sum += matrix[i][k];
-		k--;
+		int j = 2;
+		sum += matrix[i][j];
+		j--;
 	}
 	printf("%4d", sum);
 	std::cout << "\n";
 }
 
-void MagicSquare::alternate() {
+void MagicSquare::swapLR() {
+	for (int i = 0; i < size; i++) {
+		std::swap(matrix[0][i], matrix[size-1][i]);
+	}
+}
+
+void MagicSquare::swapTB() {
+	for (int i = 0; i < size; i++) {
+		std::swap(matrix[i][0], matrix[i][size-1]);
+	}
+}
+
+void MagicSquare::rotate() {
 
 }
 
@@ -135,12 +145,33 @@ int main() {
 	bool isValid = true;
 	isLegal(size, isValid);
 
+	std::cout << "\nMagic Square #1 is:" << std::endl;
 	// Magic square 1
 	MagicSquare mainSquare(size);
 	mainSquare.makeSquare();
-	mainSquare.magic();
 	mainSquare.print();
 	mainSquare.sum();
+
+	std::cout << "\nMagic Square #2 is:" << std::endl;
+	// Magic square 2
+	mainSquare.swapLR();
+	mainSquare.print();
+	mainSquare.sum();
+
+	std::cout << "\nMagic Square #3 is:" << std::endl;
+	// Magic square 3
+	mainSquare.swapTB();
+	mainSquare.print();
+	mainSquare.sum();
+
+	std::cout << "\nMagic Square #4 is:" << std::endl;
+	// Magic square 4
+	mainSquare.swapTB();
+	mainSquare.print();
+	mainSquare.sum();
+
+	std::cout << "\nMagic Square #5 is:" << std::endl;
+	// Magic square 5
 
 
 }
