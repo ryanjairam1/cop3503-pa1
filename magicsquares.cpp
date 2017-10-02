@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <iostream>
 
-// Class
+// creates a class for magic squares
 class MagicSquare {
 private:
 	int size;
@@ -13,33 +13,36 @@ public:
 	void sum();
 	void swapLR();
 	void swapTB();
-	void rotate();
+	void swapDiag();
+	void deleteMatrix();
 };
 
-// Contructor
+// creates a constructor for magic squares
 MagicSquare::MagicSquare(int size) {
 	this->size = size;
 }
 
-// Creates square
+// creates a 2d array with pointers
 void MagicSquare::makeSquare() {
+	// allocates an array of pointers, that also point to arrays
 	matrix = new int*[size];
 	for (int i = 0; i < size; i++) {
 		matrix[i] = new int[size];
 	}
 
-	// Sets everything to 0
+	// sets all values to 0
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			matrix[i][j] = 0;
 		}
 	}
 
-	// [y][x] from top
+	// determines starting position
 	int y = 0;
 	int x = size / 2;
 	matrix[y][x] = 1;
 
+	// siamese method algorithm
 	for (int i = 1; i <= size*size; i++) {
 		matrix[y][x] = i;
 		x = x + 1;
@@ -57,7 +60,7 @@ void MagicSquare::makeSquare() {
 	}
 }
 
-// Print square
+// prints square
 void MagicSquare::print() {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
@@ -65,29 +68,30 @@ void MagicSquare::print() {
 		}
 		std::cout << "\n";
 	}
+	std::cout << "\n";
 }
 
-// Check sums
+// checks the sums
 void MagicSquare::sum() {
 	// Sum of every row
-	std::cout << "Checking the sums of every row: ";
+	std::cout << "Checking the sums of every row:      ";
 	for (int i = 0; i < size; i++) {
 		int sum = 0;
 		for (int j = 0; j < size; j++) {
 			sum += matrix[i][j];
 		}
-		printf("%4d", sum);
+		printf("%5d", sum);
 	}
 	std::cout << "\n";
 
 	// Sum of every column
-	std::cout << "Checking the sums of every column: ";
+	std::cout << "Checking the sums of every column:   ";
 	for (int i = 0; i < size; i++) {
 		int sum = 0;
 		for (int j = 0; j < size; j++) {
 			sum += matrix[j][i];
 		}
-		printf("%4d", sum);
+		printf("%5d", sum);
 	}
 	std::cout << "\n";
 
@@ -97,7 +101,7 @@ void MagicSquare::sum() {
 	for (int i = 0; i < size; i++) {
 		sum += matrix[i][i];
 	}
-	printf("%4d", sum);
+	printf("%5d", sum);
 
 	// Sum of diagonal case two
 	sum = 0;
@@ -106,27 +110,42 @@ void MagicSquare::sum() {
 		sum += matrix[i][j];
 		j--;
 	}
-	printf("%4d", sum);
+	printf("%5d", sum);
 	std::cout << "\n";
 }
 
+// swaps horizontally (left and right)
 void MagicSquare::swapLR() {
 	for (int i = 0; i < size; i++) {
 		std::swap(matrix[0][i], matrix[size-1][i]);
 	}
 }
 
+// swaps vertically (top and bottom)
 void MagicSquare::swapTB() {
 	for (int i = 0; i < size; i++) {
 		std::swap(matrix[i][0], matrix[i][size-1]);
 	}
 }
 
-void MagicSquare::rotate() {
-
+// swaps diagonally
+void MagicSquare::swapDiag() {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < (size - 1) - i; j++) {
+			std::swap(matrix[i][j], matrix[size -1 - j][size - 1 - i]);
+		}
+	}
 }
 
-// Checks input
+// deletes allocated memory for matrix and it's elements
+void MagicSquare::deleteMatrix() {
+	for (int i = 0; i < size; i++) {
+		delete[] matrix[i];
+	}
+	delete[] matrix;
+}
+
+// checks input
 void isLegal(int &size, bool isValid) {
 	do {
 		isValid = true;
@@ -145,33 +164,37 @@ int main() {
 	bool isValid = true;
 	isLegal(size, isValid);
 
-	std::cout << "\nMagic Square #1 is:" << std::endl;
-	// Magic square 1
+	std::cout << "\nMagic Square #1 is:\n" << std::endl;
+	// magic square 1
 	MagicSquare mainSquare(size);
 	mainSquare.makeSquare();
 	mainSquare.print();
 	mainSquare.sum();
 
-	std::cout << "\nMagic Square #2 is:" << std::endl;
-	// Magic square 2
+	std::cout << "\nMagic Square #2 is:\n" << std::endl;
+	// magic square variation 2
 	mainSquare.swapLR();
 	mainSquare.print();
 	mainSquare.sum();
 
-	std::cout << "\nMagic Square #3 is:" << std::endl;
-	// Magic square 3
+	std::cout << "\nMagic Square #3 is:\n" << std::endl;
+	// magic square variation 3
 	mainSquare.swapTB();
 	mainSquare.print();
 	mainSquare.sum();
 
-	std::cout << "\nMagic Square #4 is:" << std::endl;
-	// Magic square 4
+	std::cout << "\nMagic Square #4 is:\n" << std::endl;
+	// magic square variation 4
 	mainSquare.swapTB();
 	mainSquare.print();
 	mainSquare.sum();
 
-	std::cout << "\nMagic Square #5 is:" << std::endl;
-	// Magic square 5
+	std::cout << "\nMagic Square #5 is:\n" << std::endl;
+	// magic square variation 5
+	mainSquare.swapDiag();
+	mainSquare.print();
+	mainSquare.sum();
 
-
+	// delete magic square instance
+	mainSquare.deleteMatrix();
 }
