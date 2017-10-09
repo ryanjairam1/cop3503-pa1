@@ -1,0 +1,1 @@
+Write C++ programs that create FIVE(5) different N*N magic squares. A square matrixis the arrangement of the numbers 1, 2, ...,N2, in which the sum of rows, columns, anddiagonals are the same. The users (i.e., TAs) will specify the size of the square matrix:N. The value N must be an odd number between 3 and 15.
